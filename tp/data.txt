@@ -1,1 +1,0 @@
-La chaîne de caractère que vous êtes en train de lire provient du fichier "data.txt" sur le serveur

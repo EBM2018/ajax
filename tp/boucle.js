@@ -1,37 +1,33 @@
-var _boucle_iPeriode = null;
-var _boucle_fnCbTraitement = null;
-var _boucle_fnCbContinuer = null;
- 
+const ulDOMElement = document.querySelector('ul');
 
-// NB : préférer utiliser setInterval plutôt que setTimeout
-// Attention : on ne peut faire qu'un seul traitement périodique à la fois
+const defaultParameters = {
+    period: 5,
+    toLoop: () => {console.log('test')},
+    toContinue: () => {return true;}
+};
 
-//TODO: refactoriser boucle([periode],traitement,[poursuite])
-
-function boucle(iPeriode,fnCbTraitement, fnCbContinuer){
-	// appelle la fonction de traitement à chaque periode, tant que la fonction continuer renvoie 'vrai'
-
-	if (iPeriode != null) {
-		// sauvegarder dans des variables globales
-		// les arguments de la fonction boucle
-		// lors du premier appel à la fonction 
-		_boucle_iPeriode = iPeriode*1000;
-		_boucle_fnCbTraitement = fnCbTraitement;
-		_boucle_fnCbContinuer = fnCbContinuer;
-	}
-
-	// si la fnCbContinuer n'est pas fournie
-	// on ne s'arrête jamais
-
-	// appeler fn continuer
-	if (	(_boucle_fnCbContinuer == null)	
-			||  (_boucle_fnCbContinuer())		){
-		// appeler fn de traitement 
-		_boucle_fnCbTraitement();
-		// preparer l'appel de la fonction boucle
-		// apres un délai iPeriode
-		window.setTimeout(boucle,_boucle_iPeriode);
-	}	
+const fillMissingParameters = (parameters) => {
+    for (const property in defaultParameters) {
+        if (parameters[property] == null) parameters[property] = defaultParameters[property];
+    }
 }
 
-console.log("librairie boucle chargee");
+const loop = (parameters) => {
+    console.log(parameters.toLoop);
+    if (parameters != null) {
+        fillMissingParameters(parameters);
+        if (parameters.toContinue()) {
+            parameters.toLoop();
+            window.setTimeout(() => loop(parameters), parameters.period * 1000);
+        }
+    }
+}
+
+const addElementInList = () => {
+    ulDOMElement.innerHTML += '<li>test</li>';
+}
+
+loop({
+    period: 2,
+    toLoop: addElementInList
+});

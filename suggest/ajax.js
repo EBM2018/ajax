@@ -1,42 +1,81 @@
-var __ajax__request = false;
-var __ajax__fnCb = null; 
+var _request = false;
+var _fnCb = null; 
+
+function enrichir(objetModele, objetModifications) {
+	var oRes = {}; 
+	for (prop in objetModele) {
+		if (objetModifications[prop] != undefined)
+			oRes[prop] = objetModifications[prop]; 
+		else 
+			oRes[prop] = objetModele[prop]; 
+	}
+	return oRes; 
+}
+
+// TODO:
+// produire un handler 'ajax' pour la fonction envoiRequete 
+// Il admettra un paramètre sous forme de JSON
+// Type & callback seront facultatifs
+// Les données seront passées par json également, par exemple {''debutNom'':''T''} au lieu de «debutNom=T». 
+var oAjaxCfg = {
+	url : "", 
+	data : {}, 
+	callback : function(e){console.log("Recu : " + e);},
+	type:"GET"	
+}
+function ajax(oParams) {
+	// paramètres dans oParams : 
+	// type[GET], data[{}], url, callback[function(){}]
+	// data est passé aussi au format json 
+	var cfg = enrichir(oAjaxCfg,oParams); 
+	var donnees = ""; 
+	for (cle in cfg.data) {
+		// Création du QS...  
+		donnees += "&" + cle + "=" + encodeURIComponent(cfg.data[cle]);
+	}
+	donnees = donnees.substr(1);
+	// methode substr(debut, [longueur]) extrait une sous-chaine
+	console.log("donnees : " + donnees);
+	envoiRequete(cfg.type,cfg.url,donnees,cfg.callback); 
+}
 
 // Attention : on ne peut faire qu'une seule requête à la fois
-// TODO: renommer la fonction "ajax" ? 
-
 function envoiRequete(type,url,donnees,callback)
 {
-	__ajax__request = new XMLHttpRequest(); 
-	__ajax__fnCb = callback;
+	_request = new XMLHttpRequest(); 
+	_fnCb = callback;
 
 	if (type=='GET') 
 	{
-		__ajax__request.open("GET", url+"?"+donnees, true);
+		_request.open("GET", url+"?"+donnees, true);
 		donnees=null;
 	}
 	else 
 	{
-		__ajax__request.open("POST", url, true);
-		__ajax__request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		__ajax__request.setRequestHeader("Content-length", donnees.length);
-		__ajax__request.setRequestHeader("Connection", "close");
+		_request.open("POST", url, true);
+		_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		/*
+		// provoque des erreurs sous Windows...
+		_request.setRequestHeader("Content-length", donnees.length);
+		_request.setRequestHeader("Connection", "close");
+		*/
 	}
 
-	__ajax__request.onreadystatechange = __ajax__traiteReponse;
-	__ajax__request.send(donnees);
+	_request.onreadystatechange = traiteReponse;
+	_request.send(donnees);
 }
 
-function __ajax__traiteReponse()
+function traiteReponse()
 {
-	if (__ajax__request.readyState == 4) 
+	// alert(_request.readyState); // A décommenter...
+	if (_request.readyState == 4) 
 	{
-	    if (__ajax__request.status == 200) 
+	    if (_request.status == 200) 
 	    {
-			var donnee = __ajax__request.responseText;
-			__ajax__fnCb(donnee); 
+			var donnee = _request.responseText;
+			_fnCb(donnee); 
 	    }
 	}
 } 
 
-console.log("Chargement librairie ajax");
-
+console.log("librairie ajax chargee");

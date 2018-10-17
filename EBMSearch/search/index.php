@@ -2,7 +2,7 @@
 require_once '../vendor/autoload.php';
 
 $EBMMembersNames = [
-    'Thomas Bourdheauhuy',
+    'Thomas Bourdeaud\'huy',
     'Cyril Brajon',
     'Baptiste Debever',
     'Felix Delcourt',

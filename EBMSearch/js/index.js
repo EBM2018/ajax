@@ -15,7 +15,7 @@ const handleSearchBarInputChange = () => {
     const query = searchBarInputElement.value;
     if (query.length > 0) {
         infoSpan.classList.add('is-hidden');
-        makeAjaxRequest(HTTPVerbs.GET, searchUrl, displaySearchResult, handleSearchError())
+        makeAjaxRequest(HTTPVerbs.GET, searchUrl, displaySearchResult, handleSearchError)
     } else {
         infoSpan.classList.remove('is-hidden');
         suggestionsListElement.innerHTML = '';

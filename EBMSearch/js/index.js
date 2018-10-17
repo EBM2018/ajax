@@ -5,6 +5,8 @@ const suggestionsListElement = document.getElementById('suggestions-list');
 const userIconHtmlSnippet = '<i class="fas fa-user"></i>';
 const infoSpan = document.getElementById('info-span');
 const noSuggestionSpan = document.getElementById('no-suggestion-span');
+const errorsBar = document.getElementById('errors-bar');
+const errorContentDiv = document.getElementById('error-content');
 
 const addSearchBarInputListener = () => {
     searchBarInputElement.addEventListener('keyup', handleSearchBarInputChange);
@@ -12,7 +14,9 @@ const addSearchBarInputListener = () => {
 
 const handleSearchBarInputChange = () => {
     const query = searchBarInputElement.value;
+    noSuggestionSpan.classList.add('is-hidden');
     if (query.length > 0) {
+        resetInfos();
         const requestUrl = formatRequestUrl(query);
         makeAjaxRequest(HTTPVerbs.GET, requestUrl, displaySearchResult, handleSearchError)
     } else {
@@ -31,17 +35,21 @@ const displaySearchResult = (response) => {
     } else noSuggestionSpan.classList.remove('is-hidden');
 };
 
-const handleSearchError = (response) => {
+const handleSearchError = (status, statusText) => {
     searchBarControlDiv.classList.remove('is-loading');
-    if (response != null) {
-
-    } else {
-
-    }
+    errorsBar.classList.remove('is-hidden');
+    errorContentDiv.innerHTML = `${status} - ${statusText}`;
 };
 
 const formatRequestUrl = (query) => {
     return `${searchUrl}?q=${encodeURIComponent(query)}`;
+};
+
+const resetInfos = () => {
+    searchBarControlDiv.classList.add('is-loading');
+    infoSpan.classList.add('is-hidden');
+    errorsBar.classList.add('is-hidden');
+    errorContentDiv.innerHTML = '';
 };
 
 addSearchBarInputListener();

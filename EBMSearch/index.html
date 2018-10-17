@@ -21,6 +21,11 @@
                     </div>
                 </div>
             </header>
+            <div class="columns is-hidden" id="errors-bar">
+                <div class="column is-half is-offset-one-quarter">
+                    <div class="notification is-danger" id="error-content"></div>
+                </div>
+            </div>
             <div class="columns" id="search-bar">
                 <div class="column is-8 is-offset-2">
                     <div class="control has-icons-left" id="search-bar-control-div">
@@ -35,7 +40,7 @@
                 <div class="column is-full">
                     <h2 class="is-title is-5">Suggestions</h2>
                     <div id="info-span" class="is-italic has-text-grey-light">Commencez à entrer un nom pour obtenir des suggestions !</div>
-                    <div id="no-suggestion-span" class="is-italic has-text-warning is-hidden">Aucun résultat trouvé pour ce nom.</div>
+                    <div id="no-suggestion-span" class="is-italic has-text-danger is-hidden">Aucun résultat trouvé pour ce nom.</div>
                     <ul id="suggestions-list"></ul>
                 </div>
             </div>

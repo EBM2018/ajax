@@ -19,12 +19,12 @@ const makeAjaxRequest = (method, url, successCallback, errorCallback) => {
             if (request.status >= 200 && request.status < 400) {
                 if (typeof(successCallback) === 'function') successCallback(request.response);
             } else {
-                if (typeof(errorCallback) === 'function') errorCallback(request.response);
+                if (typeof(errorCallback) === 'function') errorCallback(request.status, request.statusText);
             }
         };
 
         request.onerror = () => {
-            if (typeof(errorCallback) === 'function') errorCallback();
+            if (typeof(errorCallback) === 'function') errorCallback(request.status, request.statusText);
         };
 
         request.send();

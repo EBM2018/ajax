@@ -7,13 +7,13 @@ const infoSpan = document.getElementById('info-span');
 const noSuggestionSpan = document.getElementById('no-suggestion-span');
 
 const addSearchBarInputListener = () => {
-    searchBarInputElement.addEventListener('keyup', () => handleSearchBarInputChange());
+    searchBarInputElement.addEventListener('keyup', handleSearchBarInputChange);
 };
 
 const handleSearchBarInputChange = () => {
-    searchBarControlDiv.classList.add('is-loading');
     const query = searchBarInputElement.value;
     if (query.length > 0) {
+        searchBarControlDiv.classList.add('is-loading');
         infoSpan.classList.add('is-hidden');
         makeAjaxRequest(HTTPVerbs.GET, searchUrl, displaySearchResult, handleSearchError)
     } else {

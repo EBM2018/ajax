@@ -1,68 +1,72 @@
-<script src="ajax.js"></script>
-<script src="utils.js"></script>
-<script>
-envoiRequete("GET","data.txt","cle=val",alerter); 
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="author" content="Lenophie" />
+        <title>TP Ajax</title>
+    </head>
 
-function alerter(e){
-	alert(e);
-}
+    <script src="ajax.js"></script>
+    <script src="utils.js"></script>
+    <script>
 
-function fnRappel(e){
-	alert("Le navigateur vient de recevoir : \n" +e);
-}
+    const alerter = (e) =>{
+        alert(e);
+    };
 
-function send(ref) {
-	if (ref.value == "Envoi par GET") {
-		envoiRequete("GET","data.php","saisie=" + val("saisie"),fnRappel);
-	}
-	else {
-		envoiRequete("POST","data.php","saisie=" + val("saisie"),fnRappel);
-	}
-}
+    const fnRappel = (e) => {
+        alert(`Le navigateur vient de recevoir : \n${e}`);
+    };
 
-/* 
-// version avec handler et arguments en JSON : 
-ajax({	url:"data.txt", 
-			type:"GET",
-			data:{"cle":"val"},
-			callback: function (e){alert(e);}
-});
+    const send = (ref) => {
+        if (ref.value === "Envoi par GET") envoiRequete("GET", "data.php", `saisie=${val("saisie")}`, fnRappel);
+        else envoiRequete("POST", "data.php", `saisie=${val("saisie")}`,fnRappel);
+    };
 
-function send(ref) {
-	if (ref.value == "Envoi par GET") {
-		ajax({	url:"data.php", 
-					type:"GET",
-					data:{"saisie":val("saisie")},
-					callback: function (e){alert("Le navigateur vient de recevoir : \n" +e);}
-				});
-	}
-	else {
-		ajax({	url:"data.php", 
-					type:"POST",
-					data:{"saisie":val("saisie")},
-					callback: function (e){alert("Le navigateur vient de recevoir : \n" +e);}
-				});
+    envoiRequete("GET", "data.txt", "cle=val", alerter);
 
-	}
-}
-*/
+    /*
+    // version avec handler et arguments en JSON :
+    ajax({	url:"data.txt",
+                type:"GET",
+                data:{"cle":"val"},
+                callback: function (e){alert(e);}
+    });
 
-</script>
+    function send(ref) {
+        if (ref.value == "Envoi par GET") {
+            ajax({	url:"data.php",
+                        type:"GET",
+                        data:{"saisie":val("saisie")},
+                        callback: function (e){alert("Le navigateur vient de recevoir : \n" +e);}
+                    });
+        }
+        else {
+            ajax({	url:"data.php",
+                        type:"POST",
+                        data:{"saisie":val("saisie")},
+                        callback: function (e){alert("Le navigateur vient de recevoir : \n" +e);}
+                    });
 
-<body>
+        }
+    }
+    */
 
-<h1>AJAX</h1>
+    </script>
 
-Le client envoie une requ&ecirc;te asynchrone &agrave; la page data.txt... 
+    <body>
+        <h1>AJAX</h1>
+        Le client envoie une requ&ecirc;te asynchrone &agrave; la page data.txt...
+        <hr>
+        <h3> Pour envoyer une valeur &agrave; la page data.php : </h3>
+        Texte : <input type="text" id="saisie" />
+        <input type="button" onclick="send(this);" value="Envoi par GET"/>
+        <input type="button" onclick="send(this);" value="Envoi par POST"/>
+        <br/>
+    </body>
 
-<hr />
-<h3> Pour envoyer une valeur &agrave; la page data.php : </h3>
-Texte : <input type="text" id="saisie" />
-<input type="button" onclick="send(this);" value="Envoi par GET"/>
-<input type="button" onclick="send(this);" value="Envoi par POST"/> <br />
-
-</form>
-
-</body>
+</html>
 
 

@@ -1,10 +1,11 @@
 let _request = false;
 let _fnCb = null;
 
-function ajax (oParams) {
-
-	
-}
+const ajax = (oParams) => {
+    let donneesFormattees = '';
+    for (const propriete in oParams.data) donneesFormattees += `${propriete}=${encodeURIComponent(oParams.data[propriete])}`;
+	envoiRequete(oParams.type, oParams.url, donneesFormattees, oParams.callback);
+};
 
 // Attention : on ne peut faire qu'une seule requête à la fois
 const envoiRequete = (type, url, donnees, callback) =>

@@ -12,6 +12,7 @@
     <script src="utils.js"></script>
     <script>
 
+    /*
     const alerter = (e) =>{
         alert(e);
     };
@@ -26,33 +27,36 @@
     };
 
     envoiRequete("GET", "data.txt", "cle=val", alerter);
+    */
 
-    /*
     // version avec handler et arguments en JSON :
-    ajax({	url:"data.txt",
-                type:"GET",
-                data:{"cle":"val"},
-                callback: function (e){alert(e);}
+    ajax({
+        url: "data.txt",
+        type: "GET",
+        data: {"cle": "val"},
+        callback: (e) => {alert(e);}
     });
 
-    function send(ref) {
-        if (ref.value == "Envoi par GET") {
-            ajax({	url:"data.php",
-                        type:"GET",
-                        data:{"saisie":val("saisie")},
-                        callback: function (e){alert("Le navigateur vient de recevoir : \n" +e);}
-                    });
+    const send = (ref) => {
+        if (ref.value === "Envoi par GET") {
+            ajax({
+                url :"data.php",
+                type: "GET",
+                data: {"saisie": val("saisie")},
+                callback: (e) => {alert(`Le navigateur vient de recevoir : \n${e}`);}
+            });
         }
         else {
-            ajax({	url:"data.php",
-                        type:"POST",
-                        data:{"saisie":val("saisie")},
-                        callback: function (e){alert("Le navigateur vient de recevoir : \n" +e);}
-                    });
+            ajax({
+                url: "data.php",
+                type: "POST",
+                data: {"saisie": val("saisie")},
+                callback: (e) => {alert(`Le navigateur vient de recevoir : \n${e}`);}
+            });
 
         }
     }
-    */
+
 
     </script>
 

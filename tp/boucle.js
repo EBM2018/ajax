@@ -2,7 +2,7 @@ const ulDOMElement = document.querySelector('ul');
 
 const defaultParameters = {
     period: 5,
-    toLoop: () => {console.log('test')},
+    toLoop: () => {console.log('test');},
     toContinue: () => {return true;}
 };
 
@@ -13,7 +13,6 @@ const fillMissingParameters = (parameters) => {
 }
 
 const loop = (parameters) => {
-    console.log(parameters.toLoop);
     if (parameters != null) {
         fillMissingParameters(parameters);
         if (parameters.toContinue()) {

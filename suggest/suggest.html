@@ -1,5 +1,20 @@
 <style> /* présentation */
-
+#cadreSuggest {display:inline;position:relative;}
+#imgLoad{position:absolute;
+right:5px;top:1px;
+}
+#saisie{border:1px solid black; padding:3px;
+width:200px;height:30px;padding-right:30px;
+}
+#suggestions{border:1px solid black;padding:0px;
+position:absolute;left:0px;right:0px;margin:0px;
+border-top:none;
+}
+#suggestions li {display:block;padding:5px;}
+#suggestions li:hover{
+	cursor:pointer;
+	background-color:lightgrey;
+}
 </style>
 
 <body> <!-- structure --> 
@@ -9,9 +24,9 @@ Saisir un etudiant :
 	<input type="text" id="saisie"/>
 	<img id="imgLoad" src="ressources/ajaxLoader.gif" />
 	<ul id="suggestions">
-	<li>Thibault</li>
-	<li>Thimothe</li>
-	<li>Thomas</li>
+		<li>Thibault</li>
+		<li>Thimothe</li>
+		<li>Thomas</li>
 	</ul>
 </div>
 </body>

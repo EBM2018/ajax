@@ -1,4 +1,4 @@
-const searchUrl = './search';
+const searchUrl = './search/index.php';
 const searchBarInputElement = document.getElementById('search-bar-input');
 const searchBarControlDiv = document.getElementById('search-bar-control-div');
 const suggestionsListElement = document.getElementById('suggestions-list');
@@ -13,9 +13,8 @@ const addSearchBarInputListener = () => {
 const handleSearchBarInputChange = () => {
     const query = searchBarInputElement.value;
     if (query.length > 0) {
-        searchBarControlDiv.classList.add('is-loading');
-        infoSpan.classList.add('is-hidden');
-        makeAjaxRequest(HTTPVerbs.GET, searchUrl, displaySearchResult, handleSearchError)
+        const requestUrl = formatRequestUrl(query);
+        makeAjaxRequest(HTTPVerbs.GET, requestUrl, displaySearchResult, handleSearchError)
     } else {
         infoSpan.classList.remove('is-hidden');
         suggestionsListElement.innerHTML = '';
@@ -39,6 +38,10 @@ const handleSearchError = (response) => {
     } else {
 
     }
+};
+
+const formatRequestUrl = (query) => {
+    return `${searchUrl}?q=${encodeURIComponent(query)}`;
 };
 
 addSearchBarInputListener();

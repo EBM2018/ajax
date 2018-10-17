@@ -1,0 +1,23 @@
+/node_modules
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+composer.lock
+package-lock.json
+packages
+.vscode
+.env
+.jshintrc
+.eslintrc.json
+error_log
+.DS_STORE
+
+# Homestead conf
+after.sh
+aliases
+Vagrantfile

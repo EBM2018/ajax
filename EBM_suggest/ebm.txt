@@ -1,0 +1,17 @@
+BOURDEAUD'HUY:Thomas:Centrale
+BRAJON:Cyril:Centrale
+HEYMES:Florian:Centrale
+LALANNE UGALDE:Baptiste:Centrale
+LEDER:Simon:Centrale
+LEGAL:Maxime:Centrale
+LEULIET:Quentin:Centrale
+MALNOURY:Nathan:Centrale
+OUHSSAINE:Hamza:Centrale
+VALLET:Gabin:Centrale
+CHION:Valentin:Iteem
+DEBEVER:Baptiste:Iteem
+DELCOURT:Felix:Iteem
+DUMORTIER:Nans:Iteem
+MOTTEZ:Hugo:Iteem
+VANET MAS:Axel:Iteem
+WIRBEL:Arthur:Iteem

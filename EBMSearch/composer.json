@@ -1,0 +1,10 @@
+{
+  "name": "EBM'Search",
+  "description": "Search EBM members names !",
+  "keywords": ["ebm", "search"],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "loilo/fuse": "^3.2"
+  }
+}

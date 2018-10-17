@@ -37,6 +37,7 @@ survol du btn ou CB ou label => afficher info-bulle
 <script src="utils.js">
 // SURTOUT RIEN ICI !!
 </script>
+<script src="boucle.js"></script>
 
 <script>
 // TODO: mettre en place une mise à jour périodique
@@ -44,10 +45,17 @@ function maj() {
 	html("visuel",val("saisie"));
 }
 function actuAuto() {
-	maj(); 
+	//maj(); 
+	// On active une mise à jour périodique
+	bouclev2({	traitement : maj, 
+				poursuite : function(){
+					return val("cbAuto");
+				}
+	});
 }
 function saisir() {
-	if (val("cbAuto")) maj();
+	// On désactive la fonction saisir 
+	//if (val("cbAuto")) maj();
 }
 
 function appui(contexte) {

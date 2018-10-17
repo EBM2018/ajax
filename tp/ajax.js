@@ -1,15 +1,42 @@
 var _request = false;
 var _fnCb = null; 
 
+function enrichir(objetModele, objetModifications) {
+	var oRes = {}; 
+	for (prop in objetModele) {
+		if (objetModifications[prop] != undefined)
+			oRes[prop] = objetModifications[prop]; 
+		else 
+			oRes[prop] = objetModele[prop]; 
+	}
+	return oRes; 
+}
+
 // TODO:
-// produire un andler 'ajax' pour la fonction envoiRequete 
+// produire un handler 'ajax' pour la fonction envoiRequete 
 // Il admettra un paramètre sous forme de JSON
-// Type & url seront facultatifs
+// Type & callback seront facultatifs
 // Les données seront passées par json également, par exemple {''debutNom'':''T''} au lieu de «debutNom=T». 
-
-function ajax (oParams) {
-
-	
+var oAjaxCfg = {
+	url : "", 
+	data : {}, 
+	callback : function(e){console.log("Recu : " + e);},
+	type:"GET"	
+}
+function ajax(oParams) {
+	// paramètres dans oParams : 
+	// type[GET], data[{}], url, callback[function(){}]
+	// data est passé aussi au format json 
+	var cfg = enrichir(oAjaxCfg,oParams); 
+	var donnees = ""; 
+	for (cle in cfg.data) {
+		// Création du QS...  
+		donnees += "&" + cle + "=" + encodeURIComponent(cfg.data[cle]);
+	}
+	donnees = donnees.substr(1);
+	// methode substr(debut, [longueur]) extrait une sous-chaine
+	console.log("donnees : " + donnees);
+	envoiRequete(cfg.type,cfg.url,donnees,cfg.callback); 
 }
 
 // Attention : on ne peut faire qu'une seule requête à la fois

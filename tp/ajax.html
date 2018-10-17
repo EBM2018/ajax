@@ -1,7 +1,8 @@
 <script src="ajax.js"></script>
 <script src="utils.js"></script>
 <script>
-envoiRequete("GET","data.txt","cle=val",alerter); 
+/*
+envoiRequete("GET","data.txt","cle=val",fnRappel); 
 
 function alerter(e){
 	alert(e);
@@ -19,12 +20,10 @@ function send(ref) {
 		envoiRequete("POST","data.php","saisie=" + val("saisie"),fnRappel);
 	}
 }
+*/
 
-/* 
 // version avec handler et arguments en JSON : 
-ajax({	url:"data.txt", 
-			type:"GET",
-			data:{"cle":"val"},
+ajax({		url:"data.txt", 
 			callback: function (e){alert(e);}
 });
 
@@ -45,7 +44,7 @@ function send(ref) {
 
 	}
 }
-*/
+
 
 </script>
 

@@ -23,22 +23,24 @@
             </header>
             <div class="columns" id="search-bar">
                 <div class="column is-8 is-offset-2">
-                    <div class="control has-icons-left is-loading">
-                        <input class="input" id="search-bar-input" type="text" placeholder="Entrer un nom...">
+                    <div class="control has-icons-left" id="search-bar-control-div">
+                        <input class="input" id="search-bar-input" type="text" placeholder="Entrer un nom..." autocomplete="off">
                         <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="columns" id="suggestions-list">
-                <ul>
-                    <li>
-                        <i class="fas fa-user"></i>
-                        Test
-                    </li>
-                </ul>
+            <div class="columns">
+                <div class="column is-full">
+                    <h2 class="is-title is-5">Suggestions</h2>
+                    <div id="info-span" class="is-italic has-text-grey-light">Commencez à entrer un nom pour obtenir des suggestions !</div>
+                    <div id="no-suggestion-span" class="is-italic has-text-warning is-hidden">Aucune résultat trouvé pour ce nom.</div>
+                    <ul id="suggestions-list"></ul>
+                </div>
             </div>
         </div>
     </body>
+    <script type="text/javascript" src="./js/ajax.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
 </html>

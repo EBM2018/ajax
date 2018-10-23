@@ -20,6 +20,12 @@ border-top:none;display:none;
 <script src="utils.js"></script>
 <script src="ajax.js"></script>
 <script>
+// API HTML5 data attributes permet de sauvegarder des données 
+// associées à des balises du DOM 
+var cache = {
+	currentSuggestions : []
+};
+
 // Interaction 
 function saisir(refSaisie) {
 	var contenu = val(refSaisie);
@@ -43,9 +49,8 @@ function integrer(reponse){
  	var oReponse = JSON.parse(reponse);
 	console.log(oReponse);
 
-	// TODO : 1) consommer le flux JSON pour afficher les suggestions au format <p> <N:6> 
-	// Utiliser JSON.parse()
-	// 2) Afficher le nom complet lorsque l'on clique sur une des suggestions 
+	// Enregistrement des résultats dans le cache 
+	cache.currentSuggestions = oReponse.etudiants; 
 
 	// Cacher l'image
 	hide("imgLoad");
@@ -57,7 +62,7 @@ function integrer(reponse){
 		var sListe = ""; 
 		var i; 
 		for(i=0;i<oReponse.etudiants.length;i++) {
-			sListe += "<li>";			
+			sListe += '<li id="suggest_' + i + '">';			
 			sListe += oReponse.etudiants[i].prenom.substr(0,1); 
 			sListe += ". ";		
 			sListe += oReponse.etudiants[i].nom.substr(0,6); 
@@ -74,8 +79,14 @@ function choisir(contexte){
 	// propriété caractérisant l'élément cliqué ??
 	// 3 possibilités : srcElement, target ou toElement
 	// => target  
-	var contenu = html(contexte.target); 
-	val("saisie",contenu); // insérer le contenu cliqué 
+	// var contenu = html(contexte.target); 
+	var id = contexte.target.id; // "suggest_..."
+	var indice = parseInt(id.substr(8));
+
+	// insérer le nom de l'étudiant cliqué
+	// en regardant dans le cache 
+	val("saisie",cache.currentSuggestions[indice].nom); 
+ 
 	// Cacher les suggestions
 	hide("suggestions");
 }

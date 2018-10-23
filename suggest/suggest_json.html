@@ -29,7 +29,7 @@ function saisir(refSaisie) {
 	// SI le contenu est non vide
 	if (contenu != "") {
 		show("imgLoad"); // 	Afficher une image de chargement
-		ajax({	url:"data.php", 
+		ajax({	url:"data_json.php", 
 				data:{debutNom:contenu}, 
 				callback:integrer}); 
 		// 	Déclencher une requête asynchrone
@@ -37,18 +37,34 @@ function saisir(refSaisie) {
 }
 
 function integrer(reponse){
+	// paramètre formel "reponse" contient une chaine de caractères
+	// au format JSON
+	// 1) On la transforme en OBJET 
+ 	var oReponse = JSON.parse(reponse);
+	console.log(oReponse);
 
 	// TODO : 1) consommer le flux JSON pour afficher les suggestions au format <p> <N:6> 
+	// Utiliser JSON.parse()
 	// 2) Afficher le nom complet lorsque l'on clique sur une des suggestions 
 
-	console.log("integrer : " + reponse); 
 	// Cacher l'image
 	hide("imgLoad");
 
-	// Si la reponse est non vide 
-	if (reponse != "") {
+	// Si tableau de reponses n'est pas vide 
+	if (oReponse.etudiants.length > 0) {
+		// préparer la structure XHTML (listes)
+		// associée à ces étudiants 
+		var sListe = ""; 
+		var i; 
+		for(i=0;i<oReponse.etudiants.length;i++) {
+			sListe += "<li>";			
+			sListe += oReponse.etudiants[i].prenom.substr(0,1); 
+			sListe += ". ";		
+			sListe += oReponse.etudiants[i].nom.substr(0,6); 
+			sListe += ".</li>";
+		}
 		// Insérer la réponse dans le cadre des suggestions 
-		html("suggestions",reponse);
+		html("suggestions",sListe);
 		// Afficher les suggestions
 		show("suggestions");
 	}

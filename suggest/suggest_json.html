@@ -1,0 +1,77 @@
+<style> /* présentation */
+#cadreSuggest {display:inline;position:relative;}
+#imgLoad{position:absolute;
+right:5px;top:1px;display:none;
+}
+#saisie{border:1px solid black; padding:3px;
+width:200px;height:30px;padding-right:30px;
+}
+#suggestions{border:1px solid black;padding:0px;
+position:absolute;left:0px;right:0px;margin:0px;
+border-top:none;display:none;
+}
+#suggestions li {display:block;padding:5px;}
+#suggestions li:hover{
+	cursor:pointer;
+	background-color:lightgrey;
+}
+</style>
+
+<script src="utils.js"></script>
+<script src="ajax.js"></script>
+<script>
+// Interaction 
+function saisir(refSaisie) {
+	var contenu = val(refSaisie);
+	// Cacher les suggestions actuelles 
+	hide("suggestions");
+
+	// SI le contenu est non vide
+	if (contenu != "") {
+		show("imgLoad"); // 	Afficher une image de chargement
+		ajax({	url:"data.php", 
+				data:{debutNom:contenu}, 
+				callback:integrer}); 
+		// 	Déclencher une requête asynchrone
+	}
+}
+
+function integrer(reponse){
+
+	// TODO : 1) consommer le flux JSON pour afficher les suggestions au format <p> <N:6> 
+	// 2) Afficher le nom complet lorsque l'on clique sur une des suggestions 
+
+	console.log("integrer : " + reponse); 
+	// Cacher l'image
+	hide("imgLoad");
+
+	// Si la reponse est non vide 
+	if (reponse != "") {
+		// Insérer la réponse dans le cadre des suggestions 
+		html("suggestions",reponse);
+		// Afficher les suggestions
+		show("suggestions");
+	}
+}
+
+function choisir(contexte){
+	// propriété caractérisant l'élément cliqué ??
+	// 3 possibilités : srcElement, target ou toElement
+	// => target  
+	var contenu = html(contexte.target); 
+	val("saisie",contenu); // insérer le contenu cliqué 
+	// Cacher les suggestions
+	hide("suggestions");
+}
+</script>
+
+<body> <!-- structure --> 
+
+Saisir un etudiant :
+<div id="cadreSuggest"> 
+	<input type="text" id="saisie" onkeyup="saisir(this);"/>
+	<img id="imgLoad" src="ressources/ajaxLoader.gif" />
+	<ul id="suggestions" onclick="choisir(event);">
+	</ul>
+</div>
+</body>

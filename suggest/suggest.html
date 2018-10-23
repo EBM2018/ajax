@@ -29,8 +29,8 @@ function saisir(refSaisie) {
 	// SI le contenu est non vide
 	if (contenu != "") {
 		show("imgLoad"); // 	Afficher une image de chargement
-		ajax({	url:"fixture.php", 
-				data:{}, 
+		ajax({	url:"data.php", 
+				data:{debutNom:contenu}, 
 				callback:integrer}); 
 		// 	Déclencher une requête asynchrone
 	}

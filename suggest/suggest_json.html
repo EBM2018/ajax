@@ -35,7 +35,7 @@ function saisir(refSaisie) {
 	// SI le contenu est non vide
 	if (contenu != "") {
 		show("imgLoad"); // 	Afficher une image de chargement
-		ajax({	url:"data_json.php", 
+		ajax({	url:"data_bdd.php", 
 				data:{debutNom:contenu}, 
 				callback:integrer}); 
 		// 	Déclencher une requête asynchrone

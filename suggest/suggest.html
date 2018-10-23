@@ -1,7 +1,7 @@
 <style> /* présentation */
 #cadreSuggest {display:inline;position:relative;}
 #imgLoad{position:absolute;
-right:5px;top:1px;
+right:5px;top:1px;display:none;
 }
 #saisie{border:1px solid black; padding:3px;
 width:200px;height:30px;padding-right:30px;
@@ -17,13 +17,47 @@ border-top:none;
 }
 </style>
 
+<script src="utils.js"></script>
+<script src="ajax.js"></script>
+<script>
+// Interaction 
+function saisir(refSaisie) {
+	var contenu = val(refSaisie);
+	// Cacher les suggestions actuelles 
+	hide("suggestions");
+
+	// SI le contenu est non vide
+	if (contenu != "") {
+		show("imgLoad"); // 	Afficher une image de chargement
+		ajax({	url:"fixture.php", 
+				data:{}, 
+				callback:integrer}); 
+		// 	Déclencher une requête asynchrone
+	}
+}
+
+function integrer(){
+	console.log("integrer"); 
+}
+
+function choisir(contexte){
+	// propriété caractérisant l'élément cliqué ??
+	// 3 possibilités : srcElement, target ou toElement
+	// => target  
+	var contenu = html(contexte.target); 
+	val("saisie",contenu); // insérer le contenu cliqué 
+	// Cacher les suggestions
+	hide("suggestions");
+}
+</script>
+
 <body> <!-- structure --> 
 
 Saisir un etudiant :
 <div id="cadreSuggest"> 
-	<input type="text" id="saisie"/>
+	<input type="text" id="saisie" onkeyup="saisir(this);"/>
 	<img id="imgLoad" src="ressources/ajaxLoader.gif" />
-	<ul id="suggestions">
+	<ul id="suggestions" onclick="choisir(event);">
 		<li>Thibault</li>
 		<li>Thimothe</li>
 		<li>Thomas</li>

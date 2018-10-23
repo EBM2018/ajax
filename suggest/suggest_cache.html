@@ -1,0 +1,158 @@
+<style> /* présentation */
+#cadreSuggest {display:inline;position:relative;}
+#imgLoad{position:absolute;
+right:5px;top:1px;display:none;
+}
+#saisie{border:1px solid black; padding:3px;
+width:200px;height:30px;padding-right:30px;
+}
+#suggestions{border:1px solid black;padding:0px;
+position:absolute;left:0px;right:0px;margin:0px;
+border-top:none;display:none;
+}
+#suggestions li {display:block;padding:5px;}
+#suggestions li:hover{
+	cursor:pointer;
+	background-color:lightgrey;
+}
+</style>
+
+<script src="utils.js"></script>
+<script src="ajax.js"></script>
+<script>
+// API HTML5 data attributes permet de sauvegarder des données 
+// associées à des balises du DOM 
+// API HTML5 WebStorage permet de négocier un cache persistant dans les navigateurs
+var cache = {
+	currentSuggestions : [], 
+	pastSuggestions : {}
+}; 
+/*
+	pastSuggestions : {
+		"bou" : [	{p:"thomas",n:"bou"}, 
+					{p:"jp", n:"bourey"}], 
+		"autre" : [...], 
+		... 
+	}
+	*** MIEUX QUE *** 
+	pastSuggestions : [
+		{	recherche:"bou", 
+			resutlats : [	{p:"thomas",n:"bou"}, 
+							{p:"jp", n:"bourey"}]
+		}, 
+		{	recherche: "autre", 
+			resultats : [...]
+		}, 
+		... 
+	]
+*/
+
+
+// TODO : mettre en oeuvre un cache permettant de stocker la totalité des réponses reçues 
+// permettant de ne pas refaire des requêtes HTTP inutiles si on a déjà récupéré les résultats associés à la saisie courante
+
+// Interaction 
+function saisir(refSaisie) {
+	var contenu = val(refSaisie);
+	// Cacher les suggestions actuelles 
+	hide("suggestions");
+
+	// SI le contenu est non vide
+	if (contenu != "") {
+		// Dispose-t-on déjà des suggestions associées à cette saisie dans le cache ? 
+
+		if (cache.pastSuggestions[contenu] != undefined) {
+			// On insère les suggestions directement
+			// Comment ? 
+			// 1) On appelle la fonction integrer directement 
+			// Dans ce cas, il faut lui fabriquer un argument 
+			// correspondant à ce qu'elle aurait du recevoir 
+			// du serveur 
+/*
+	var oFake = {	"debutNom":contenu, 
+					"etudiants":cache.pastSuggestions[contenu] }; 
+			integrer(JSON.stringify(oFake));
+		// transformation d'un objet en chaine : serialisation 
+*/
+			// 2) On insère directement les données... 
+			inserer(cache.pastSuggestions[contenu]); 	
+		}
+		else {
+			// 	Déclencher une requête asynchrone
+			show("imgLoad"); // 	Afficher une image de chargement
+			ajax({	url:"data_bdd.php", 
+					data:{debutNom:contenu}, 
+					callback:integrer}); 
+		}
+	}
+}
+
+function integrer(reponse){
+	// paramètre formel "reponse" contient une chaine de caractères
+	// au format JSON
+	// 1) On la transforme en OBJET 
+ 	var oReponse = JSON.parse(reponse);
+	console.log(oReponse);
+
+	// Enregistrement dans le cache "pastSuggestions"
+	cache.pastSuggestions[oReponse.debutNom] = oReponse.etudiants;
+	// On est obligé d'utiliser la syntaxe [] pour désigner le nom de la propriété à traiter... 
+
+	// Cacher l'image
+	hide("imgLoad");
+
+	inserer(oReponse.etudiants); 
+}
+
+function inserer(etudiants) {
+	// Enregistrement des suggestions dans le cache 
+	cache.currentSuggestions = etudiants; 
+
+	// Si tableau de reponses n'est pas vide 
+	if (etudiants.length > 0) {
+		// préparer la structure XHTML (listes)
+		// associée à ces étudiants 
+		var sListe = ""; 
+		var i; 
+		for(i=0;i<etudiants.length;i++) {
+			sListe += '<li id="suggest_' + i + '">';			
+			sListe += etudiants[i].prenom.substr(0,1); 
+			sListe += ". ";		
+			sListe += etudiants[i].nom.substr(0,6); 
+			sListe += ".</li>";
+		}
+		// Insérer la réponse dans le cadre des suggestions 
+		html("suggestions",sListe);
+		// Afficher les suggestions
+		show("suggestions");
+	}
+}
+
+
+function choisir(contexte){
+	// propriété caractérisant l'élément cliqué ??
+	// 3 possibilités : srcElement, target ou toElement
+	// => target  
+	// var contenu = html(contexte.target); 
+	var id = contexte.target.id; // "suggest_..."
+	var indice = parseInt(id.substr(8));
+
+	// insérer le nom de l'étudiant cliqué
+	// en regardant dans le cache 
+	val("saisie",cache.currentSuggestions[indice].nom); 
+ 
+	// Cacher les suggestions
+	hide("suggestions");
+}
+</script>
+
+<body> <!-- structure --> 
+
+Saisir un etudiant :
+<div id="cadreSuggest"> 
+	<input type="text" id="saisie" onkeyup="saisir(this);"/>
+	<img id="imgLoad" src="ressources/ajaxLoader.gif" />
+	<ul id="suggestions" onclick="choisir(event);">
+	</ul>
+</div>
+</body>
